@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Secrets
+.env
+.env.*
+
+# Deploy scripts with hardcoded tokens (legacy)
+# These have been migrated to use .env
+
+# OS files
+Thumbs.db
+.DS_Store

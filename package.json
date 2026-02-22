@@ -1,0 +1,19 @@
+{
+  "name": "deploy-bridge",
+  "version": "1.0.0",
+  "main": "deploy-to-oss.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@alicloud/cas20200407": "^3.1.0",
+    "@alicloud/cas20200630": "^3.0.0",
+    "@alicloud/openapi-client": "^0.4.15",
+    "ali-oss": "^6.23.0",
+    "dotenv": "^17.3.1"
+  }
+}
