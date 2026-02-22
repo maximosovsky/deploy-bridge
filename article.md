@@ -12,7 +12,7 @@ cover_image:
 
 The hypothesis was simple:
 
-> If a project runs on Vercel, it's just static files — HTML, JS, CSS. If it's static, you can host it **anywhere**. Any CDN. Any object storage. Any cloud.
+> If a project runs on [Vercel](https://vercel.com), it's just static files — HTML, JS, CSS. If it's static, you can host it **anywhere**. Any CDN. Any object storage. Any cloud.
 
 So I came up with [**DeployBridge**](https://maximosovsky.github.io/deploy-bridge/) — an open-source service where you paste four things into a form:
 
@@ -21,7 +21,7 @@ So I came up with [**DeployBridge**](https://maximosovsky.github.io/deploy-bridg
 3. **Alibaba Cloud token**
 4. **Domain name**
 
-Hit "Deploy." The service clones the repo, runs `npm run build`, takes the output files, and uploads them to Alibaba Cloud OSS (object storage). No server. No Nginx. No VPS. Just files on a CDN with a custom domain. Done in 30 seconds.
+Hit "Deploy." The service clones the repo, runs `npm run build`, takes the output files, and uploads them to [Alibaba Cloud OSS](https://www.alibabacloud.com/product/object-storage-service) (object storage). No server. No Nginx. No VPS. Just files on a CDN with a custom domain. Done in 30 seconds.
 
 The logic felt bulletproof: **GitHub repo → `npm run build` → upload `dist/` to Alibaba OSS → DNS → live site.** Five API calls, all automated.
 
@@ -35,9 +35,9 @@ Here's what happened.
 
 ## The Promise
 
-[![DeployBridge landing page — "Deploy to anywhere as easily as Vercel"](https://maximosovsky.github.io/deploy-bridge/article-images/deploybridge_landing.jpg)](https://maximosovsky.github.io/deploy-bridge/)
+[![DeployBridge landing page — "Deploy to anywhere as easily as Vercel"](https://raw.githubusercontent.com/maximosovsky/deploy-bridge/master/article-images/deploybridge_landing.jpg)](https://maximosovsky.github.io/deploy-bridge/)
 
-🤖 **Antigravity** built the landing page with a Luma-inspired aesthetic — glassmorphism cards, pastel gradients, subtle animations. It looked professional. Premium, even.
+🤖 [**Antigravity**](https://blog.google/technology/google-deepmind/antigravity-ai-coding/) built the landing page with a Luma-inspired aesthetic — glassmorphism cards, pastel gradients, subtle animations. It looked professional. Premium, even.
 
 The form. The progress bar. Five steps animating beautifully:
 1. ✅ Cloning repository
@@ -59,15 +59,15 @@ Then came the moment of truth: I needed to actually deploy [WallPlan](https://ww
 
 ### Step 1: Create a RAM User (10 min)
 
-🧑 You can't just use your root Alibaba account for API access. You need a **RAM (Resource Access Management) user** — their equivalent of AWS IAM.
+🧑 You can't just use your root Alibaba account for API access. You need a **[RAM (Resource Access Management)](https://www.alibabacloud.com/product/ram) user** — their equivalent of AWS IAM.
 
 I navigated to **Alibaba Cloud Console → RAM → Identities → Users → Create User**, and attached the `AliyunOSSFullAccess` policy. There's a picker with 56 pages of policies. Fun.
 
-![Attaching the AliyunOSSFullAccess policy to a RAM user](https://maximosovsky.github.io/deploy-bridge/article-images/ram_policy.jpg)
+![Attaching the AliyunOSSFullAccess policy to a RAM user](https://raw.githubusercontent.com/maximosovsky/deploy-bridge/master/article-images/ram_policy.jpg)
 
 After creating the user, you get an AccessKey ID and Secret. The Secret is shown **exactly once**. If you miss it, create a new one.
 
-![AccessKey created — shown once, then hidden forever](https://maximosovsky.github.io/deploy-bridge/article-images/accesskey.jpg)
+![AccessKey created — shown once, then hidden forever](https://raw.githubusercontent.com/maximosovsky/deploy-bridge/master/article-images/accesskey.jpg)
 
 > **Gotcha #1**: The RAM user was created, but I still couldn't do anything. Turns out you need to grant permissions in a *separate step* — creating the user alone isn't enough.
 
@@ -77,15 +77,15 @@ After creating the user, you get an AccessKey ID and Secret. The Secret is shown
 
 🧑 OSS (Object Storage Service) isn't enabled by default. You need to "purchase" it. For $0.00. With a credit card.
 
-![OSS is not activated yet — Enable Now button](https://maximosovsky.github.io/deploy-bridge/article-images/oss_activate.jpg)
+![OSS is not activated yet — Enable Now button](https://raw.githubusercontent.com/maximosovsky/deploy-bridge/master/article-images/oss_activate.jpg)
 
 Clicking "Enable Now" takes you to a checkout page. Total: $0.00. Payment method: VISA. You still need to click "Purchase."
 
-![The $0.00 purchase flow for OSS activation](https://maximosovsky.github.io/deploy-bridge/article-images/oss_purchase.jpg)
+![The $0.00 purchase flow for OSS activation](https://raw.githubusercontent.com/maximosovsky/deploy-bridge/master/article-images/oss_purchase.jpg)
 
 After the "purchase," you get a success page. Congratulations, you've bought nothing.
 
-![OSS successfully activated](https://maximosovsky.github.io/deploy-bridge/article-images/oss_activated.jpg)
+![OSS successfully activated](https://raw.githubusercontent.com/maximosovsky/deploy-bridge/master/article-images/oss_activated.jpg)
 
 > **Gotcha #2**: Even though the service is free to activate, there's a multi-step purchase flow with payment method selection. This can't be automated via API.
 
@@ -93,7 +93,7 @@ After the "purchase," you get a success page. Congratulations, you've bought not
 
 ### Step 3: Deploy the Files (2 min ✅)
 
-🤖 **Antigravity** wrote a Node.js script using the `ali-oss` SDK. I just hit Enter:
+🤖 **Antigravity** wrote a Node.js script using the [`ali-oss`](https://www.npmjs.com/package/ali-oss) SDK. I just hit Enter:
 
 ```javascript
 const client = new OSS({
@@ -111,7 +111,7 @@ await client.put('wallplan/@yka_yka/index.html', localFile, {
 
 23 files uploaded. Bucket created. Static hosting enabled. All good.
 
-![Bucket wallplan-deploy in OSS Console with uploaded files](https://maximosovsky.github.io/deploy-bridge/article-images/oss_bucket.jpg)
+![Bucket wallplan-deploy in OSS Console with uploaded files](https://raw.githubusercontent.com/maximosovsky/deploy-bridge/master/article-images/oss_bucket.jpg)
 
 ---
 
@@ -152,7 +152,7 @@ My domain was on GoDaddy. In the "one-click" vision, the system would somehow ne
 
 ### Step 6: GoDaddy API... Doesn't Work (15 min)
 
-🧑 I created a Production API key at `developer.godaddy.com/keys`.
+🧑 I created a Production API key at [developer.godaddy.com/keys](https://developer.godaddy.com/keys).
 
 🤖 **Antigravity** wrote a script to add a CNAME record via the GoDaddy API. The API returned:
 
@@ -177,7 +177,7 @@ by CreateCnameToken and try again.
 
 OSS needs proof that you own the domain. Fair enough. But the verification requires adding a TXT record — and **DNS doesn't allow a CNAME and TXT record on the same hostname**.
 
-![GoDaddy showing a conflict between TXT and CNAME records on the same name](https://maximosovsky.github.io/deploy-bridge/article-images/dns_conflict.jpg)
+![GoDaddy showing a conflict between TXT and CNAME records on the same name](https://raw.githubusercontent.com/maximosovsky/deploy-bridge/master/article-images/dns_conflict.jpg)
 
 🤖 **Antigravity** parsed the API response and figured out the TXT record goes to `_dnsauth.ali.osovsky.com`, not `ali.osovsky.com`.
 
