@@ -3,7 +3,7 @@ title: I Tried to Build a One-Click Deployer — Here's What Actually Happened
 published: false
 description: I built a landing page promising "Deploy to anywhere as easily as Vercel." Then I actually tried to deploy something. The gap between the promise and reality was... educational.
 tags: cloud, deployment, alibaba, devops
-cover_image: 
+cover_image: https://raw.githubusercontent.com/maximosovsky/deploy-bridge/master/article-images/Deploy-Bridge.jpg
 ---
 
 # I Tried to Build a One-Click Deployer — Here's What Actually Happened

@@ -459,6 +459,7 @@ body {
   transition: all var(--transition);
   position: relative;
   overflow: hidden;
+  text-decoration: none;
 }
 
 .deploy-btn:hover {
